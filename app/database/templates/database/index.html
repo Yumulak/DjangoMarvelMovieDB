@@ -1,0 +1,11 @@
+{% extends "database/base.html" %} {% load static %}{% block title %} Marvel Cinematic Universe Database
+{% endblock%} {% block content%}
+<div class="container">
+  <h1>Marvel Cinematic Universe Database</h1>
+  <ul>
+    {% for tutorial in tutorials %}
+    <li>{{ tutorial.title }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %} {% block jsfiles %} {% endblock jsfiles %}
