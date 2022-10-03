@@ -48,9 +48,9 @@ def movie_list(request):
     if request.method == 'GET':
         movies = Movie.objects.all()
 
-        title = request.GET.get('title', None)
-        if title is not None:
-            movies = movies.filter(title__icontains=title)
+        name = request.GET.get('name', None)
+        if name is not None:
+            movies = movies.filter(name__icontains=name)
 
         movies_serializer = DatabaseSerializer(movies, many=True)
         return JsonResponse(movies_serializer.data, safe=False)
