@@ -2,45 +2,60 @@ version: "3.8"
 services:
   web:
     build: ./app
+    image: 951644293102.dkr.ecr.us-east-1.amazonaws.com/djangomarvelmoviedb:djangomarvelmoviedb_web
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./app/:/usr/src/app/
-    ports:
-      - 8000:8000
+    expose:
+      - 8000
     environment:
       - DB_NAME=MCUDB
       - DB_USER=postgres
       - DB_PASSWORD=admin123
-      - DB_HOST=pg
+      - DB_HOST=mcudb.cumjf4fnjqso.us-east-1.rds.amazonaws.com
       - DB_PORT=5432
       - DATABASE=postgres
-    depends_on:
-      - pg
-  pg:
-    container_name: pg_container
-    image: postgres:13.2-alpine
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: MCUDB
-      POSTGRES_HOST_AUTH_METHOD: trust
-    ports:
-      - "5432:5432"
+      - VIRTUAL_HOST=ec2-44-207-237-173.compute-1.amazonaws.com
+      - VIRTUAL_PORT=8000
+  nginx:
+    build: ./nginx
+    image: 951644293102.dkr.ecr.us-east-1.amazonaws.com/djangomarvelmoviedb:djangomarvelmoviedb_nginx
     volumes:
-      - ./data:/data
-      - ./data/misc/django_init.sql:/docker-entrypoint-initdb.d/1-django-init.sql
-  pgadmin:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4:5.2
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: admin123
-      PGADMIN_LISTEN_PORT: 5433
-      PGADMIN_CONFIG_SERVER_MODE: "False"
-      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+      - static_volume:/usr/src/app/static
     ports:
-      - "5433:5433"
+      - 8000:80
     depends_on:
-      - pg
+      -web
+  volumes:
+    static_volume:
+
+  #   depends_on:
+  #     - pg
+  # pg:
+  #   container_name: pg_container
+  #   image: postgres:13.2-alpine
+  #   restart: always
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: admin123
+  #     POSTGRES_DB: MCUDB
+  #     POSTGRES_HOST_AUTH_METHOD: trust
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - ./data:/data
+  #     - ./data/misc/django_init.sql:/docker-entrypoint-initdb.d/1-django-init.sql
+  # pgadmin:
+  #   container_name: pgadmin_container
+  #   image: dpage/pgadmin4:5.2
+  #   restart: always
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@example.com
+  #     PGADMIN_DEFAULT_PASSWORD: admin123
+  #     PGADMIN_LISTEN_PORT: 5433
+  #     PGADMIN_CONFIG_SERVER_MODE: "False"
+  #     PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+  #   ports:
+  #     - "5433:5433"
+  #   depends_on:
+  #     - pg

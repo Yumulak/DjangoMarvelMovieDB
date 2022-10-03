@@ -1,0 +1,20 @@
+elastic IP address:
+44.207.237.173
+
+public IPv4 DNS:
+ec2-44-207-237-173.compute-1.amazonaws.com
+
+ecr repo URI:
+951644293102.dkr.ecr.us-east-1.amazonaws.com/djangomarvelmoviedb
+
+push command to retrieve an authentication token and authenticate your Docker client to your registry :
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 951644293102.dkr.ecr.us-east-1.amazonaws.com
+
+RDS Master password:
+admin123
+
+RDS endpoint:
+mcudb.cumjf4fnjqso.us-east-1.rds.amazonaws.com
+
+RDS port:
+5432
