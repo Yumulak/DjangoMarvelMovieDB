@@ -6,7 +6,7 @@ class DatabaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = ('id', 'name', 'description', 'run_time', 'release_date',
-                  'viewer_rating', 'critic_rating', 'director_id', 'comic_stories')
+                  'viewer_rating', 'critic_rating', 'director_id', 'comic_stories', 'published')
 
     # class Meta:
     #     model = Director
