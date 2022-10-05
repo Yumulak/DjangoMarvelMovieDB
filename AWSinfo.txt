@@ -21,3 +21,6 @@ RDS port:
 
 github repo url:
 https://github.com/Yumulak/DjangoMarvelMovieDB.git
+
+web address:
+http://ec2-44-207-237-173.compute-1.amazonaws.com:8000
